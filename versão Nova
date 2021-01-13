@@ -1,0 +1,169 @@
+# AGORA VAI
+###################################------CLASSES------######################################
+class Administrador():
+	login = 1
+	senha = 1
+
+class cliente():
+	primeiro_nome = ''
+	ultimo_nome = ''
+	CPF = ''
+	senha = ''
+	limite_credito = 0
+	cartão = 0
+	
+
+
+###################################------FUNÇÕES------######################################
+def inserirDados():
+	c=cliente()
+	c.primeiro_nome=input('Insira o primeiro nome')
+	c.ultimom_nome=input('Insira o ultimo nome')
+	c.CPF=input('Insira o CPF')
+	#VALIDAR CPF
+	validar_cpf = validaCPF(c.CPF)
+	c.senha = input('Insira sua senha: ')
+	c.cartão = gerar_numcartao
+	c.limite_credito = input(int('Insira o limite de crédito: '))
+
+def alimentarLista():   #APÓS VALIDAR ROOT, CHAMAR ESSA FUNÇÃO
+	pessoas = [] #Lista onde será adicionados os dados dos clientes.
+	for i in range(len(cliente())):  #Esse for percorre o tamanho da classe e coloca os dados no vetor 'pessoas'
+		pessoas.append(inserirDados(i+1))
+
+
+# as primeiras duas funções abaixo serviram para validação do cpf
+def multip1(cpf):
+    v1 = cpf[0] * 10
+    v2 = cpf[1] * 9
+    v3 = cpf[2] * 8
+    v4 = cpf[3] * 7
+    v5 = cpf[4] * 6
+    v6 = cpf[5] * 5
+    v7 = cpf[6] * 4
+    v8 = cpf[7] * 3
+    v9 = cpf[8] * 2
+    soma = (v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9)
+    rest = soma % 11
+    return rest
+
+
+def multip2(cpf):
+    v1 = cpf[0] * 11
+    v2 = cpf[1] * 10
+    v3 = cpf[2] * 9
+    v4 = cpf[3] * 8
+    v5 = cpf[4] * 7
+    v6 = cpf[5] * 6
+    v7 = cpf[6] * 5
+    v8 = cpf[7] * 4
+    v9 = cpf[8] * 3
+    v10 = cpf[9] * 2
+    soma = (v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9 + v10)
+    rest1 = soma % 11
+    return rest1
+
+def validaCPF(X):
+	cpf = X
+	cpf = list(map(int, cpf))
+    rest = multip1(cpf)
+    if rest < 2:
+    	rest = 0
+        if rest == cpf[9]:
+    	    rest1 = multip2(cpf)
+            if rest1 < 2:
+                rest1 = 0
+                if rest1 == cpf[10]:
+                    print('CPF válido')
+                else:
+                    cliente.cpfCliente = int(input('CPF inválido. Insira de novo:'))
+            else:
+                rest1 = 11 - rest1
+                if rest1 == cpf[10]:
+                    print('CPF válido')
+                else:
+                    cliente.cpfCliente = int(input('CPF inválido. Insira de novo'))
+        else:
+            cliente.cpfCliente = int(input('10º digito inválido.Insira de novo.'))
+    else:
+        rest = 11 - rest
+        if rest == cpf[9]:
+            rest1 = multip2(cpf)
+            if rest1 < 2:
+                rest1 = 0
+                if rest1 == cpf[10]:
+                    print('11º digito correto. CPF válido')
+                else:
+                    cliente.cpfCliente = int(input('11º digito inválido.Insira novamente'))
+            else:
+                rest1 = 11 - rest1
+                if rest1 == cpf[10]:
+                    print('11º digito correto. CPF válido')
+                else:
+                    cliente.cpfCliente = int(input('11º digito inválido.Insira novamente'))
+
+        else:
+            cliente.cpfCliente = int(input('10º dígito inválido. Insira novamente'))
+
+
+
+def sucesso(catmercado, catsaude, catdiveros): #inacabado. não tem link de nada em lugar algum, n relaciono o cliente com o saldo nunca
+
+    if valorvar == 1:
+        print('Compra alocada na categoria: Mercado')
+        catmercado = catmercado + valorcompra
+        print(catmercado)
+        return catmercado
+    elif valorvar == 2:
+        catsaude = catsaude + valorcompra
+        print('Compra alocada na categoria: Saúde')
+        return catsaude
+    elif valorvar == 3:
+        catdiversos = diversos + valorcompra
+        print('Compra alocada na categoria: Diversos')
+        return catdiversos
+    else:
+        print('Categoria inexistente. Contate nossos desenvolvedores para mais informações :) ')
+
+
+def gerar_numcartao(): 
+    from random import choice
+    lista = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+    numcartao = choice(lista) + choice(lista) + choice(lista) + choice(lista) + ' ' + choice(lista) + choice(
+        lista) + choice(lista) + choice(lista) + ' ' + choice(lista) + choice(lista) + choice(lista) + choice(
+        lista) + ' ' + choice(lista) + choice(lista) + choice(lista) + choice(lista)
+    return numcartao
+
+def validarLogin(usuario, senha):   #INACABADOOOOOOOOOOOO
+
+	for i in range (len(pessoas)): 
+		for n in range:
+			if n[i] == usuario:
+				if n[i]== senha:
+					
+
+
+####################################-----MAIN----########################################
+
+ 
+#--PRIMEIRO MENU--#
+
+def main():
+
+	print(' 1 - Acesso Administrador \n 2 - Login de usuario \n')
+	menu = input(int('Digite uma opção : '))
+
+	if menu == 1: #administrador root
+		adm = Administrador()
+		if adm.login == 1 and adm.senha == 1:
+
+			print(' 1 - Cadastrar novo usuário \n 2 - Aumentar limite de usuário \n')
+			op = input(int('Digite uma opção: '))
+			if op == 1: #QUER CADASTRAR NOVO USUÁRIO
+				TESTE = alimentarLista()
+				print(TESTE)
+			if op == 2:
+				#INACABADO... AQUI VAI TER QUE VERIFICAR LOGIN DA PESSOA QUE QUER AUMENTAR O SALDO
+	if menu == 2:
+		validarLogin(usuario, senha): #INACABADO
+						
