@@ -1,0 +1,328 @@
+# AGORA VAI
+###################################------CLASSES------######################################
+class Administrador():
+	login = 1
+	senha = 1
+
+class cliente():
+	primeiro_nome = ''
+	ultimo_nome = ''
+	CPF = ''
+	senha = ''
+	limite_credito = 0
+	cartão = 0
+	cat_roupa = []
+	cat_saude = []
+	cat_comida= []
+	cat_outras= []
+
+###################################------FUNÇÕES------######################################
+def inserirDados():
+
+	prosseguir = 'false'
+
+	while prosseguir != 'true':
+
+		c=cliente() #instanciando
+		c.primeiro_nome=input('Insira o primeiro nome: ')
+		c.ultimo_nome=input('Insira o ultimo nome: ')
+		c.CPF=input('Insira o CPF: ')
+		#VALIDAR CPF
+		validar_cpf = validaCPF(c.CPF)
+
+		if (validar_cpf == 'true'):
+			prosseguir = 'true'
+
+		c.senha = input('Insira sua senha: ')
+		c.cartao = gerar_numcartao()
+		c.limite_credito = int(input('Insira o limite de crédito: '))
+
+	return c
+
+
+# as primeiras duas funções abaixo serviram para validação do cpf
+def multip1(cpf):
+	v1 = cpf[0] * 10
+	v2 = cpf[1] * 9
+	v3 = cpf[2] * 8
+	v4 = cpf[3] * 7
+	v5 = cpf[4] * 6
+	v6 = cpf[5] * 5
+	v7 = cpf[6] * 4
+	v8 = cpf[7] * 3
+	v9 = cpf[8] * 2
+	soma = (v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9)
+	rest = soma % 11
+	return rest
+
+def multip2(cpf):
+
+	v1 = cpf[0] * 11
+	v2 = cpf[1] * 10
+	v3 = cpf[2] * 9
+	v4 = cpf[3] * 8
+	v5 = cpf[4] * 7
+	v6 = cpf[5] * 6
+	v7 = cpf[6] * 5
+	v8 = cpf[7] * 4
+	v9 = cpf[8] * 3
+	v10 = cpf[9] * 2
+	soma = (v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9 + v10)
+	rest1 = soma % 11
+	return rest1
+
+def validaCPF(X):
+	cpf = X
+	cpf = list(map(int, cpf))
+	rest = multip1(cpf)
+
+	result = 'false'
+
+	if rest < 2:
+		rest = 0
+		if rest == cpf[9]:
+			rest1 = multip2(cpf)
+			if rest1 < 2:
+				rest1 = 0
+				if rest1 == cpf[10]:
+					print('CPF válido')
+					result = 'true'
+				else:
+					result = 'false'
+					cliente.cpfCliente = int(input('CPF inválido. Insira de novo:'))
+			else:
+				rest1 = 11 - rest1
+				if rest1 == cpf[10]:
+					print('CPF válido')
+					result = 'true'
+				else:
+					result='false'
+					cliente.cpfCliente = int(input('CPF inválido. Insira de novo'))
+		else:
+			result = 'false'
+			cliente.cpfCliente = int(input('10º digito inválido.Insira de novo.'))
+	else:
+		rest = 11 - rest
+		if rest == cpf[9]:
+			rest1 = multip2(cpf)
+			if rest1 < 2:
+				rest1 = 0
+				if rest1 == cpf[10]:
+					print('11º digito correto. CPF válido')
+					result = 'true'
+				else:
+					result='false'
+					cliente.cpfCliente = int(input('11º digito inválido.Insira novamente'))
+			else:
+				rest1 = 11 - rest1
+				if rest1 == cpf[10]:
+					print('11º digito correto. CPF válido')
+					result = 'true'
+				else:
+					result='false'
+					cliente.cpfCliente = int(input('11º digito inválido.Insira novamente'))
+
+		else:
+			result='false'
+			cliente.cpfCliente = int(input('10º dígito inválido. Insira novamente'))
+
+	return result
+
+def categoriasCompras(cred): #inacabado. não tem link de nada em lugar algum, n relaciono o cliente com o saldo nunca
+	valor=cred 
+	
+	cat = int(input('Qual das categorias abaixo se adequa a sua sua compra: \n 1 -Comida \n 2 - Saúde \n 3 - Roupa \n 4 - Outras'))
+	if cat == 1 :
+		print('Compra alocada em categoria : COMIDA')
+		valor = cliente - valor 
+		cat_comida = valor
+	elif cat == 2 :
+		print('Compra alocada em categoria : SAÚDE')
+		valor = cliente - valor 
+		cat_saude = valor
+	elif cat == 3 :
+		print('Compra alocada em categoria : ROUPAS')
+		valor = cliente - valor 
+		cat_roupas = valor
+	else:
+		print('Compra alocada em categoria : Outras')
+		valor = cliente - valor
+		cat_outras = valor
+
+	return valor	
+
+def gerar_numcartao(): 
+	from random import choice
+	lista = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+	numcartao = choice(lista) + choice(lista) + choice(lista) + choice(lista) + ' ' + choice(lista) + choice(lista) + choice(lista) + choice(lista) + ' ' + choice(lista) + choice(lista) + choice(lista) + choice(
+	lista) + ' ' + choice(lista) + choice(lista) + choice(lista) + choice(lista)
+	return numcartao
+
+def validarLogin(nome, senha, dados):   #INACABADOOOOOOOOOOOO
+	nome = nome
+	senha = senha
+	login = False
+
+	clientesDados = dados
+
+	for i in range(len(dados)): # i é um ponteiro que roda a lista de dados cadastrais, e procura por dados correspondentes 
+		if dados[i].primeiro_nome == nome and dados[i].senha == senha : #aos que a pessoa inseriu no login	
+			login = True
+			clienteLogado = dados[i] #a var cliente logado recebe os dados da lista de dados do cadastro, e acaba virando
+			#uma lista também
+			print('entrou aqui no cliente')
+			print(clienteLogado.primeiro_nome)
+			print(clienteLogado.ultimo_nome)
+			print(clienteLogado.senha)
+			print(clienteLogado.limite_credito)
+			print(clienteLogado.cartao)
+
+	if login == False:
+		print('Login inválido')
+
+	return [login, clienteLogado]
+	
+######## ---MENU INICIAL--- ############
+
+def meuMenu(): #tentativa de criar um menu para chamar mais facil qd precisar voltar nele
+	print(' 1 - Acesso Administrador \n 2 - Login de usuario \n')
+	menu = int(input('Digite uma opção : '))
+	return menu	
+
+######## ---MENU APÓS LOGAR--- ############
+
+def menuCliente():
+	print('entrou na porra desse menu')
+	menuCli = int(input(' 1 - Operações de crédito \n 2 - Ver saldo \n 3 - Liberar meu limite \n'))
+	return menuCli	
+
+####################################-----MAIN----########################################
+def liberarLimite(var, atual):
+	pagamento = var
+	saldo_mais_atual = atual
+	#pear valor de pagamento e somar ao limite atual
+	extrato_pospg =int (pagamento + saldo_mais_atual)
+	print(extrato_pospg)
+
+
+def Credito(clienteLog):
+	cliente = clienteLog
+	valor_compra = int(input('De quanto foi o gasto de sua compra? '))
+
+	#informar a categoria da sua compra
+	
+	if valor_compra <= int(cliente):
+		print('Saldo disponível!!!')
+		cliente = (cliente - valor_compra)
+		print('Seu saldo atual é de:', cliente)
+		
+	else:
+		vari = int(input('Saldo insuficiente. Gostaria de liberar seu limite de credito? \n 1 - Sim, pagar minha fatura \n 2 - Não, sair'))
+		if vari == 1:
+			print('vamos pra função daqui a pouco')
+			#puxar função de liberar credito pagando fatura
+		else:
+			menuCliente()	
+	return cliente
+
+#def Saldo():
+#	print('aaaaaa')
+
+'''def Limite():
+	print('Limite de credito: ', clienteLogado.limite_credito)'''
+
+#--PRIMEIRO MENU--#
+def main():
+	dados = []
+
+	menuPrincipal = True
+
+	while menuPrincipal == True:
+		
+		menu = meuMenu()
+		
+
+		resposta = 0
+		if menu == 1:#entra administrador root
+			log_root = int(input('Insira o login do administrador: '))
+			if log_root == Administrador.login:
+				sen_root = int(input('Insira a senha do root: '))
+				if sen_root==Administrador.senha:
+
+					print('\nLogin correto\n 1 - Cadastrar novo usuário \n 2 - Aumentar limite de usuário \n')
+					operacao = int(input('Digite uma opção: '))
+					if operacao == 1: #QUER CADASTRAR NOVO USUÁRIO
+						
+						#esse loop serve para nos pedir se queremos continuar cadastrando pessoas. Até que sua resposta seja true ele continua pedindo 
+						#pra vc cadastrar gente, agora, se o loop for false, significa que você pode prosseguir
+
+						loop = True
+
+						while loop == True:
+
+							dados.append(inserirDados())
+							
+							print('Deseja cadastrar mais um usuário ? \n1 - sim\n2 - não ')
+							resposta = int(input('Digite uma opção: '))
+
+							if resposta == 2:
+								break
+			########### login usuario -----------------------------------
+							if resposta == 1:
+								continue
+
+		if menu == 2: #então quer realizar login				
+			print('Insira seus dados \n')
+
+			loginProcesso = False
+			retorno = True
+
+			while loginProcesso == False:
+				
+				nome = input('Insira seu 1º nome: ')
+				senha = input('Insira sua senha: ')
+				
+				dadosLogin = validarLogin(nome, senha, dados)
+
+				login = dadosLogin[0]
+
+				clienteLogado = dadosLogin[1]
+				
+				if login == False:
+					opcao = int(input('Usuário ou senha incorretos aperte 0 para tentar novamente ou aperte 1 para sair '))
+
+					if opcao == 1:
+						retorno = False
+						loginProcesso = True
+				else:
+					retorno = True
+					loginProcesso = True
+					loginSucesso = login
+					print("caiu aqui1")
+			if loginSucesso and retorno:
+				menuCli = menuCliente()
+				limite_fixo = clienteLogado.limite_credito
+				
+				if menuCli == 1:
+					#faz as seguintes operaçoes
+					cred = Credito(clienteLogado.limite_credito)
+					print(clienteLogado.limite_credito)
+					clienteLogado.limite_credito = cred
+					#terminou as operações e agora te pede se quer mais
+					mais_op=int(input('Você deseja fazer mais operações de crédito? \n 1 - Sim \n 2 - Não'))
+					#desce para as consequencias da sua escolha acima
+					if mais_op == 1:
+						cred = Credito(clienteLogado.limite_credito)	
+						#liberarLimite(limite_fixo,)
+					else: 
+						cred=cred	
+				elif menuCli == 2:
+					print('Saldo é o seguinte em categorias: \n')
+					categoriasCompras(cred, clienteLogad)
+				else:
+					print('Seu limite é de ', cred)
+					valor_pagamento=int(input('Vc escolheu liberar limite. Quanto gostaria de pagar?: '))
+					liberarLimite(valor_pagamento, cred)	
+				#1else menuCli == 3:
+						
+main()
